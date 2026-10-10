@@ -1,0 +1,51 @@
+# Changelog
+
+## 0.5.0
+- Factory presets: the Hrtl LXR-02 DLC project (64 kits, 16 demo patterns with their kits), imported from the LXR-02's
+  own files by tools/import_lxr02.py. A new instance starts on it; a saved MPC project opens as saved.
+- RESET key (blue): back to the factory project.
+- SHIFT + RANDOM / SHIFT + SEQ RND: only the selected voice.
+- The page: the PARAMETERS column narrower (188 px), the panel widened to fill the rest; the mod keys with their icons
+  (⚠ random, ? step random) and the RESET key and legend.
+
+## 0.4.0 (LXR-02 mod)
+- The modded panel (L'Cronx): a voice randomizer (green key + amount knob, 10 % steps) and a step randomizer (yellow
+  key + density knob, euclidean per voice), with their scales and legends on the panel; the knobs on Q-Link bank 2.
+- Randomizing never silences a voice (volumes, decays, pitch, cutoffs kept in their sounding range), never lands a
+  parameter back where it was, and moves every voice on its own draws. Tests: test/engine_test.c "randomizers".
+
+## 0.3.1
+- The Force's pads play the voices in order. 0.3.0 put the voices on notes 36-42, but the Force's pads send the C major
+  scale (36 38 40 41 43 45 47 ...), so pads 1-4 played DRUM1, DRUM3, CLP/CYM, CL HH and the rest nothing. The voices'
+  default notes are now those pad notes; an MPC project saved with 0.1-0.3 is moved over when it loads (voices still on
+  the old defaults).
+
+## 0.3.0
+- MPC's step sequencer drives the LXR: the drum pads play the voices in the LXR's order (pad 1 = DRUM1 ... pad 7 =
+  OP HH), from MPC's pad bank A (notes 36-42) or the drum-pad patch layout (notes 0-6); pads 8-16 are silent instead of
+  playing the selected voice. With MPC stopped the display shows what a pad played.
+- Patterns start empty (pattern 1 had a starter beat that played over MPC's steps).
+- The pots stand on the value they edit and turn from its minimum to its maximum; the DATA knob turns with the
+  selection, from the page's first value to its last. MPC's Q-Links and wheel step them as before.
+
+## 0.2.1
+- Sound: MPC's song position and play state never reached the sequencer (the wrapper only asked MPC for its time with
+  other options set), so MPC's play did nothing. Fixed, and checked by a new test that drives the plugin through the
+  wrapper as MPC does (`test/mpc_sim.c`), also built for ARM and run under qemu (`test/arm_sim.sh`).
+- The LXR's own PLAY works with the tempo on "MPC" when MPC is stopped (it showed a message before), and its key
+  stays lit while the LXR runs.
+- Pads: 0.1 assumed the pads send notes 36 up in rows of 8 and took those notes as panel keys, so pads made no sound and
+  pressed the wrong keys. Now nothing is assumed: until pad learn the pads play the drums; pad learn takes three pads
+  (bottom-left, right of it, above it) so any non-overlapping layout maps, and refuses an overlapping one. A layout
+  saved by 0.1 is ignored.
+
+## 0.2.0
+- The page is L'Cronx's LXR-02 panel artwork: its keys (lit red with their LEDs), pots, data encoder and fader caps,
+  at MPC's full height. The page's values moved to a PARAMETERS column at its left (name, value, a bar to drag); the
+  pots print the value they edit in their white centre; the encoder's push is a tap on its DATA legend.
+
+## 0.1.0
+- First version: the LXR-02 on one page (display, pots, encoder, faders, all keys with their LEDs, step keys red/white),
+  the LXR's voices from LXR02Open, the LXR-02's PWM waveform and FX unit, the sequencer with 64 patterns of 4 bars,
+  songs, rolls, recording, the pattern generator and kit morph; Force pads as the panel (pad learn); MPC tempo follow;
+  Q-Link banks: faders + encoder, pots + encoder.

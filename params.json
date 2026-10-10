@@ -1,0 +1,657 @@
+{
+ "params": [
+  {
+   "key": "fader1",
+   "name": "DRUM1",
+   "min": 0,
+   "max": 1,
+   "default": 1.0
+  },
+  {
+   "key": "fader2",
+   "name": "DRUM2",
+   "min": 0,
+   "max": 1,
+   "default": 1.0
+  },
+  {
+   "key": "fader3",
+   "name": "DRUM3",
+   "min": 0,
+   "max": 1,
+   "default": 1.0
+  },
+  {
+   "key": "fader4",
+   "name": "SNARE",
+   "min": 0,
+   "max": 1,
+   "default": 1.0
+  },
+  {
+   "key": "fader5",
+   "name": "CLP/CYM",
+   "min": 0,
+   "max": 1,
+   "default": 1.0
+  },
+  {
+   "key": "fader6",
+   "name": "HIHATS",
+   "min": 0,
+   "max": 1,
+   "default": 1.0
+  },
+  {
+   "key": "fader7",
+   "name": "VOLUME",
+   "min": 0,
+   "max": 1,
+   "default": 0.8
+  },
+  {
+   "key": "data",
+   "name": "DATA",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "pot1",
+   "name": "POT 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_display": true
+  },
+  {
+   "key": "pot2",
+   "name": "POT 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_display": true
+  },
+  {
+   "key": "pot3",
+   "name": "POT 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_display": true
+  },
+  {
+   "key": "pot4",
+   "name": "POT 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot1",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot2",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot3",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot4",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot5",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot6",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot7",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot8",
+   "name": "-",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "slot1_used",
+   "name": "slot 1 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "slot2_used",
+   "name": "slot 2 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "slot3_used",
+   "name": "slot 3 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "slot4_used",
+   "name": "slot 4 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "slot5_used",
+   "name": "slot 5 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "slot6_used",
+   "name": "slot 6 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "slot7_used",
+   "name": "slot 7 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "slot8_used",
+   "name": "slot 8 shown",
+   "options": [
+    "off",
+    "on"
+   ],
+   "default": 0
+  },
+  {
+   "key": "pots",
+   "name": "POTS",
+   "options": [
+    "1-4",
+    "5-8"
+   ],
+   "default": 0
+  },
+  {
+   "key": "lcd1",
+   "name": "LCD 1",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "lcd2",
+   "name": "LCD 2",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "shift",
+   "name": "SHIFT",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "play",
+   "name": "PLAY",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "rec",
+   "name": "REC",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "copy",
+   "name": "COPY/CLR",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "voice",
+   "name": "VOICE",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "perf",
+   "name": "PERF",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "load",
+   "name": "LOAD",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "save",
+   "name": "SAVE",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "osc",
+   "name": "OSC",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "aeg",
+   "name": "AEG",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "mod",
+   "name": "MOD",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "fm",
+   "name": "FM",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "click",
+   "name": "CLICK",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "filter",
+   "name": "FILTER",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "lfo",
+   "name": "LFO",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "mix",
+   "name": "MIX",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "barl",
+   "name": "BAR <",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "barr",
+   "name": "BAR >",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "v1",
+   "name": "DRUM1",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "v2",
+   "name": "DRUM2",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "v3",
+   "name": "DRUM3",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "v4",
+   "name": "SNARE",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "v5",
+   "name": "CLP/CYM",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "v6",
+   "name": "CL HH",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "v7",
+   "name": "OP HH",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s1",
+   "name": "DRUM1",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s2",
+   "name": "DRUM2",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s3",
+   "name": "DRUM3",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s4",
+   "name": "SNARE",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s5",
+   "name": "CLP/CYM",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s6",
+   "name": "CL HH",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s7",
+   "name": "OP HH",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s8",
+   "name": "KIT",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s9",
+   "name": "MORPH",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s10",
+   "name": "SONG",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s11",
+   "name": "PROJECT",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s12",
+   "name": "CONFIG",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s13",
+   "name": "RELOAD",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s14",
+   "name": "LAST STEP",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s15",
+   "name": "FX",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "s16",
+   "name": "PATTERN",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "enc",
+   "name": "DATA PUSH",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "rnd",
+   "name": "VOICE RANDOM",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "rnd_amt",
+   "name": "VOICE RND AMT",
+   "options": [
+    "0%",
+    "10%",
+    "20%",
+    "30%",
+    "40%",
+    "50%",
+    "60%",
+    "70%",
+    "80%",
+    "90%",
+    "100%"
+   ],
+   "default": 5
+  },
+  {
+   "key": "srnd",
+   "name": "STEP RANDOM",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "srnd_amt",
+   "name": "STEP RND AMT",
+   "options": [
+    "0%",
+    "10%",
+    "20%",
+    "30%",
+    "40%",
+    "50%",
+    "60%",
+    "70%",
+    "80%",
+    "90%",
+    "100%"
+   ],
+   "default": 5
+  },
+  {
+   "key": "reset",
+   "name": "RESET",
+   "display": "string",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  }
+ ]
+}
