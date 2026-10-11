@@ -296,7 +296,7 @@ static void randomizers(void)
             for (t = 0; t < 7; t++) {
                 double r;
                 trig(in, t);
-                r = render(in, 8820, NULL);
+                r = render(in, 44100, NULL);   /* a second: an attack may be up to 70 % long */
                 if (!(r > 0.0003) || !isfinite(r)) { silentVoices++; printf("     press %d: voice %d rms %.5f\n", pr, t, r); }
                 render(in, 22050, NULL);
             }
@@ -313,10 +313,10 @@ static void randomizers(void)
         uint8_t prev[NUM_TRACKS][NUM_STEPS];
         x->rnd.seqAmt = 1;
         press(in, "srnd");
-        for (t = 0; t < NUM_TRACKS; t++) for (k = 0; k < 16; k++) n10 += x->pat.s[t][k].on;
+        for (t = 0; t < NUM_TRACKS; t++) for (k = 0; k < NUM_STEPS; k++) n10 += x->pat.s[t][k].on;
         x->rnd.seqAmt = 10;
         press(in, "srnd");
-        for (t = 0; t < NUM_TRACKS; t++) for (k = 0; k < 16; k++) n100 += x->pat.s[t][k].on;
+        for (t = 0; t < NUM_TRACKS; t++) for (k = 0; k < NUM_STEPS; k++) n100 += x->pat.s[t][k].on;
         CHECK(n10 >= 7 && n10 <= 21 && n100 > 50, "10 %% gives %d hits over 7 voices, 100 %% gives %d", n10, n100);
         x->rnd.seqAmt = 4;
         for (k = 0; k < 10; k++) {
@@ -324,7 +324,7 @@ static void randomizers(void)
             press(in, "srnd");
             for (t = 0; t < NUM_TRACKS; t++) {
                 int same = 1;
-                for (i = 0; i < 16; i++) if (prev[t][i] != x->pat.s[t][i].on) same = 0;
+                for (i = 0; i < NUM_STEPS; i++) if (prev[t][i] != x->pat.s[t][i].on) same = 0;
                 diff += !same;
             }
         }

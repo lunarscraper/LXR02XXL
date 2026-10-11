@@ -105,7 +105,9 @@ void lxr_randomizeVoices(Lxr *x, int pct, int voice)
     uint8_t mine[LXR_NUM_SOUND_PARAMS];
     if (pct <= 0) return;
     if (pct > 100) pct = 100;
+    uint8_t oldPrev[LXR_NUM_SOUND_PARAMS];
     memset(mine, voice < 0, sizeof mine);
+    memcpy(oldPrev, x->rnd.prev, sizeof oldPrev);
     if (voice >= 0) voice_params(voice > 5 ? 5 : voice, mine);
     /* every parameter on its own draw (the filter types come after the cutoffs: those are checked again below) */
     for (p = 1; p < LXR_NUM_SOUND_PARAMS; p++) {
@@ -118,13 +120,19 @@ void lxr_randomizeVoices(Lxr *x, int pct, int voice)
         lxr_setKitParam(x, p, (uint8_t)v, 0);
     }
     for (p = 0; p < 6; p++) {   /* the cutoffs once more, now that every filter type is settled */
-        int lo, hi;
+        int lo, hi, tries;
         const uint16_t f = filterFreq[p];
         if (!mine[f]) continue;
         limits(x, f, meta_soundMax(f), &lo, &hi);
         if (x->kit.b[f] < lo || x->kit.b[f] > hi) {   /* its filter type changed: a new place on the safe side */
+            /* not where it was before this press (prev[f] now) nor before the last one (oldPrev) */
             const int edge = x->kit.b[f] < lo ? lo : hi;
-            lxr_setKitParam(x, f, (uint8_t)land(x, edge, x->rnd.prev[f], lo, hi, meta_soundMax(f), pct), 0);
+            int v = edge;
+            for (tries = 0; tries < 16; tries++) {
+                v = land(x, edge, x->rnd.prev[f], lo, hi, meta_soundMax(f), pct);
+                if (v != oldPrev[f]) break;
+            }
+            lxr_setKitParam(x, f, (uint8_t)v, 0);
         }
     }
     for (e = EXT_PWM1; e <= EXT_PWM6; e++) {   /* the LXR-02's pulse widths */

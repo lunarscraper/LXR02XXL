@@ -2,6 +2,8 @@
 
 ## 0.5.3
 - The DATA knob turns only when DATA is turned: a pot selecting its value no longer moves it.
+- RANDOM: a filter cutoff moved back into its safe range never lands where it was before the last press either.
+- Tests: the randomizer checks look at whole tracks (up to 64 steps) and give a slow attack a second to sound.
 
 ## 0.5.2
 - The DATA encoder's new knob (matte, by Suns Kiefer).
