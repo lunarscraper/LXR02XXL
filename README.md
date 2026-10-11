@@ -30,7 +30,7 @@ owner's manual and the v1.7 changelog, with the firmware's names and value lists
 
 ## The page
 
-L'Cronx's LXR-02 panel at MPC's full height on the right, the PARAMETERS column on the left.
+The LXR-02 panel by Suns Kiefer at MPC's full height on the right, the PARAMETERS column on the left.
 
 | Area | What |
 |---|---|

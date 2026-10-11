@@ -9,7 +9,7 @@
   (⚠ random, ? step random) and the RESET key and legend.
 
 ## 0.4.0 (LXR-02 mod)
-- The modded panel (L'Cronx): a voice randomizer (green key + amount knob, 10 % steps) and a step randomizer (yellow
+- The modded panel (artwork by Suns Kiefer): a voice randomizer (green key + amount knob, 10 % steps) and a step randomizer (yellow
   key + density knob, euclidean per voice), with their scales and legends on the panel; the knobs on Q-Link bank 2.
 - Randomizing never silences a voice (volumes, decays, pitch, cutoffs kept in their sounding range), never lands a
   parameter back where it was, and moves every voice on its own draws. Tests: test/engine_test.c "randomizers".
@@ -40,7 +40,7 @@
   saved by 0.1 is ignored.
 
 ## 0.2.0
-- The page is L'Cronx's LXR-02 panel artwork: its keys (lit red with their LEDs), pots, data encoder and fader caps,
+- The page is the LXR-02 panel artwork by Suns Kiefer: its keys (lit red with their LEDs), pots, data encoder and fader caps,
   at MPC's full height. The page's values moved to a PARAMETERS column at its left (name, value, a bar to drag); the
   pots print the value they edit in their white centre; the encoder's push is a tap on its DATA legend.
 

@@ -4,7 +4,7 @@
     python3 tools/panel.py --write     (writes layout.conf from this file)
     python3 tools/panel.py --check     (fails when layout.conf is stale)
 
-The page is built from the panel artwork in art/panel/ (L'Cronx's LXR-02 panel, 1000 x 638):
+The page is built from the panel artwork in art/panel/ (the LXR-02 panel by Suns Kiefer, 1000 x 638):
     BACKGROUND SYNTH.png                   the panel without its knobs, keys and fader caps
     BUTTONS OFF ALL.png / BUTTONS ON ALL.png   every key unlit / lit, in place (a sheet 8 px left and 1 px up of the panel)
     Main KNOB.png                          the data encoder
