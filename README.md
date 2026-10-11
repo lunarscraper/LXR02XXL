@@ -113,16 +113,9 @@ Each voice listens on its own MIDI channel and note (MIX page; by default channe
 parameter n-1 and NRPN the parameters from 128 (the LXR's CC/NRPN list), NRPN 100-105 the PWM of voices 1-6 and
 106-116 the FX unit, CC1 morphs, program change selects the pattern.
 
-## Your own artwork
+## Artwork
 
-The page is made from the panel artwork in `art/panel/` (1000 x 638): `BACKGROUND SYNTH.png` (the panel without
-knobs, keys and caps), `BUTTONS OFF ALL.png` / `BUTTONS ON ALL.png` (every key unlit / lit, in place), `Main KNOB.png`
-(the data encoder), `PARAMETER DATA KNOB.png` (the pots), `SLIDER CAP one.png`. Replace any of them with a new
-version under the same name and rebuild: the keys are found in the key sheets, so they may move. The display window,
-knob centres and fader frames are measured in `tools/panel.py`. The mod's parts: `MOD BUTTON GREEN ON.png`,
-`MOD BUTTON YELLOW ON.png`, `MOD BUTTON BLUE ON.png` (lit; the unlit white is made from them), `MOD KNOB GREEN.png`,
-`MOD KNOB YELLOW.png`, `MOD SCALE GREEN.png`, `MOD SCALE YELLOW.png` and the RESET legend (`MOD RESET LABEL.png`, cut
-from `MOD OVERVIEW.png`). `PAGE REFERENCE.png` is the page's proportions (the panel widened to 1092 px).
+Artwork by Suns Kiefer.
 
 ## Presets from an LXR-02
 
