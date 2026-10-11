@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.4
+- The panel without the L'Cronx logo (new background by Suns Kiefer); the catalog entry's author is Suns Kiefer.
+
 ## 0.5.3
 - The DATA knob turns only when DATA is turned: a pot selecting its value no longer moves it.
 - RANDOM: a filter cutoff moved back into its safe range never lands where it was before the last press either.
