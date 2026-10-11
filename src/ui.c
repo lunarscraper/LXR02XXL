@@ -1249,10 +1249,18 @@ static int data_range(Lxr *x, int *pos)
     }
 }
 
-float ui_dataGet(Lxr *x)
+static float data_pos(Lxr *x)
 {
     int pos = 0, n = data_range(x, &pos);
     return n > 1 ? (float)pos / (float)(n - 1) : 0.5f;
+}
+
+/* The DATA knob turns with what it moves through, but only when DATA itself is turned: a pot selecting its value (which
+ * moves the selection) leaves the knob where it is. dataKnob holds its place + 1 (0 = not read yet). */
+float ui_dataGet(Lxr *x)
+{
+    if (x->ui.dataKnob <= 0.f) x->ui.dataKnob = data_pos(x) + 1.f;   /* first look: where the selection is */
+    return x->ui.dataKnob - 1.f;
 }
 
 void ui_dataSet(Lxr *x, float v)
@@ -1262,16 +1270,27 @@ void ui_dataSet(Lxr *x, float v)
     int pos = 0, n = data_range(x, &pos), steps;
     float d;
     if (n < 2) {   /* nothing to move through: the plain relative encoder */
-        d = v - 0.5f;
+        d = v - ui_dataGet(x);
         if (d > -1e-4f && d < 1e-4f) return;
         ui_data(x, d > 0 ? 1 : -1);
         return;
     }
-    d = v * (float)(n - 1) - (float)pos;
-    if (d > -0.002f && d < 0.002f) return;
+    /* the move is measured from where the knob's picture stands (what MPC read back), and goes from the selection */
+    d = (v - ui_dataGet(x)) * (float)(n - 1);
+    if (d > -0.002f && d < 0.002f) {
+        /* the knob's picture is at an end MPC can't go past, but the selection isn't: push on from there */
+        const float at = data_pos(x);
+        if (v >= 0.999f && at < 0.999f) d = 1.f;
+        else if (v <= 0.001f && at > 0.001f) d = -1.f;
+        else return;
+    }
     steps = (int)(d + (d > 0 ? 0.5f : -0.5f));
     if (steps == 0) steps = d > 0 ? 1 : -1;
     ui_data(x, steps);
+    {   /* the picture turns by the steps taken, like the encoder it is */
+        float k = ui_dataGet(x) + (float)steps / (float)(n - 1);
+        x->ui.dataKnob = (k < 0.f ? 0.f : k > 1.f ? 1.f : k) + 1.f;
+    }
 }
 
 static int pot_slot(Lxr *x, int pot)

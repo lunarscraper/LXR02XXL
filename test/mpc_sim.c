@@ -133,6 +133,9 @@ int main(void)
         a->setP(a, P_POT2, p1 - 1.f / 128); run(a, 0.02);
         CHECK(a->getP(a, P_POT2) < p1, "a Q-Link event back from the end steps back (%.3f)", a->getP(a, P_POT2));
         d0 = a->getP(a, P_DATA);
+        a->setP(a, P_POT3, 0.7f); run(a, 0.02);
+        a->setP(a, P_POT4, 0.3f); run(a, 0.02);
+        CHECK(fabsf(a->getP(a, P_DATA) - d0) < 1e-4f, "pots 3 and 4 leave the DATA knob where it is (%.2f -> %.2f)", d0, a->getP(a, P_DATA));
         a->setP(a, P_DATA, d0 + 1.f / 128); run(a, 0.02);
         d1 = a->getP(a, P_DATA);
         CHECK(d1 > d0, "the DATA knob turns one place with the selection (%.2f -> %.2f)", d0, d1);

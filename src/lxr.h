@@ -184,6 +184,7 @@ typedef struct Lxr {
         uint32_t pulse[NUM_TRACKS];   /* voice LED pulse until (frames) */
         uint32_t pressedAt[NUM_BUTTONS];
         uint8_t potHalf;           /* which half of the slots the 4 pots edit */
+        float dataKnob;            /* where the DATA knob's picture stands: it turns only when DATA turns (+1: set) */
     } ui;
 
     Slot slots[NUM_SLOTS];

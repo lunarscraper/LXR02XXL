@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.3
+- The DATA knob turns only when DATA is turned: a pot selecting its value no longer moves it.
+
 ## 0.5.2
 - The DATA encoder's new knob (matte, by Suns Kiefer).
 
