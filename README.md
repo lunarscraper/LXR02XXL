@@ -1,5 +1,9 @@
 # LXRXXL v0.5.0
 
+![LXRXXL on MPC](docs/img/page.png)
+
+**Tested on an Akai Force** (see `tested.json`). Downloads: [Releases](https://github.com/sunskiefer/LXR02XXL/releases).
+
 The Sonic Potions + Erica Synths **LXR-02** drum machine as a plugin instrument for the Akai Force and MPC (MPC OS
 3.x, VST2 through [mpc-vst-plugins](https://github.com/sd88me/mpc-vst-plugins)). The whole front panel on one page:
 display, four pots, data encoder, the 7 faders, every button with its LED, and the 16 step keys, playable from the
@@ -147,11 +151,14 @@ it. INSTALL.md in the zip has the manual steps.
 
 ## Building
 
-Python 3 with Pillow, a host gcc and clang, Zig (`pip install ziglang`). No Docker.
+Python 3 with Pillow, numpy and scipy, a host gcc and clang, Zig (`pip install ziglang`); valgrind and qemu-user for the tests. No Docker.
 
 ```
+git clone https://github.com/sunskiefer/LXR02XXL
+cd LXR02XXL
 ./build.sh             # build/arm/lxrxxl.so + the skin -> build/package/
 test/run_tests.sh      # the wrapper's host test and the engine tests, under valgrind
+test/arm_sim.sh        # the MPC simulation built for ARM, run under qemu-arm
 ```
 
 `tools/gen_params.py` is the parameter list (appended only: MPC stores automation by index), `tools/panel.py` the
