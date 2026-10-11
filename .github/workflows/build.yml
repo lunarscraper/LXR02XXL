@@ -55,6 +55,7 @@ jobs:
             --version "$VERSION" \
             --about "LXRXXL by ANDREALPHEUS: the Sonic Potions + Erica Synths LXR-02 drum machine, modded, for MPC OS" \
             --id lxrxxl --repo sunskiefer/LXR02XXL --license LicenseRef-LXR02-Open \
+            $( [ -f bench.json ] && echo --bench bench.json ) \
             -o dist
           # the LXR02 Open-Source license: a binary goes with its complete source, released beside it
           git archive --format=zip --prefix="LXRXXL-$VERSION-source/" -o "dist/LXRXXL-$VERSION-source.zip" HEAD
