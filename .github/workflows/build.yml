@@ -56,16 +56,12 @@ jobs:
             --about "LXRXXL by ANDREALPHEUS: the Sonic Potions + Erica Synths LXR-02 drum machine, modded, for MPC OS" \
             --id lxrxxl --repo sunskiefer/LXR02XXL --license LicenseRef-LXR02-Open \
             -o dist
-          # the LXR02 Open-Source license: a binary goes with its complete source
-          Z=$(ls dist/*.zip); TOP="LXRXXL-$VERSION"
-          mkdir -p "pkg/$TOP/source"
-          git archive HEAD | tar -x -C "pkg/$TOP/source"
-          cp README.md LICENSE PATCHES.md CHANGELOG.md "pkg/$TOP/"
-          (cd pkg && zip -qr "../$Z" "$TOP")
+          # the LXR02 Open-Source license: a binary goes with its complete source, released beside it
+          git archive --format=zip --prefix="LXRXXL-$VERSION-source/" -o "dist/LXRXXL-$VERSION-source.zip" HEAD
 
       - name: Catalog check
         if: steps.ver.outputs.release == '1'
-        run: python3 third_party/mpc-vst-plugins/tools/catalog_check.py dist/*.zip --catalog
+        run: python3 third_party/mpc-vst-plugins/tools/catalog_check.py dist/*-mpc-armv7.zip --catalog
 
       - uses: actions/upload-artifact@v4
         with:
