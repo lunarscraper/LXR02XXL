@@ -1,4 +1,4 @@
-# LXRXXL v0.5.1
+# LXRXXL v0.5.2
 
 ![LXRXXL on MPC](docs/img/page.png)
 

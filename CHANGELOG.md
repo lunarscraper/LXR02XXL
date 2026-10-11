@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.2
+- The DATA encoder's new knob (matte, by Suns Kiefer).
+
 ## 0.5.1
 - PARAMETERS column: bigger names and values (25 px, was 17) and heading.
 
