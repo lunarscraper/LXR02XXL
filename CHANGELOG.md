@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.1
+- PARAMETERS column: bigger names and values (25 px, was 17) and heading.
+
 ## 0.5.0
 - Factory presets: the Hrtl LXR-02 DLC project (64 kits, 16 demo patterns with their kits), imported from the LXR-02's
   own files by tools/import_lxr02.py. A new instance starts on it; a saved MPC project opens as saved.

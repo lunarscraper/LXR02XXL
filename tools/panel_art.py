@@ -67,7 +67,7 @@ def draw_background():
     x, y, w, h = P.COL
     d.rounded_rectangle([x - 3, y - 3, x + w + 3, y + h + 3], radius=8, fill=(44, 44, 46, 255))
     d.rounded_rectangle([x, y, x + w, y + h], radius=6, fill=(0, 0, 0, 255))
-    d.text((x + 14, y + 12), "PARAMETERS", font=font(14), fill=(230, 230, 230, 255))
+    d.text((x + 14, y + 12), "PARAMETERS", font=font(18), fill=(230, 230, 230, 255))
     d.line([(x + 14, y + 40), (x + w - 14, y + 40)], fill=(70, 70, 72, 255), width=1)
     # the seam between the column and the panel
     d.line([(P.OX - 1, 0), (P.OX - 1, P.H)], fill=(8, 8, 8, 255), width=2)
@@ -327,8 +327,8 @@ def main(skin):
     text_h = rh - P.BAR_H - 6
     new_defs.append(definition("lxrRow", KNOB_ACTIONS, [
         focus(rw, rh),
-        label("Name", "Name", bounds(0, 0, rw * 0.55, text_h), 17, ROW_INK, "left verticallyCentred"),
-        label("Value", "Value", bounds(rw * 0.4, 0, rw * 0.6, text_h), 17, ROW_INK, "right verticallyCentred"),
+        label("Name", "Name", bounds(0, 0, rw * 0.55, text_h), 25, ROW_INK, "left verticallyCentred"),
+        label("Value", "Value", bounds(rw * 0.3, 0, rw * 0.7, text_h), 25, ROW_INK, "right verticallyCentred"),
         filmstrip("Slider", "lxr_bar.png", frames, rw, P.BAR_H, "Horizontal", 0, text_h + 4)]))
     for i in range(8):
         put("slot%d" % (i + 1), "lxrRow", P.row_box(i))
