@@ -302,7 +302,7 @@ def main(skin):
         dkey = "lxrPot%d" % (i + 1)
         new_defs.append(definition(dkey, KNOB_ACTIONS, [
             focus(s, s), filmstrip("Knob", name, KNOB_FRAMES - 1, s, s),
-            label("Value", "Value", bounds((s - disc) / 2, (s - disc) / 2, disc, disc), 17, "ff141414",
+            label("Value", "Value", bounds((s - disc) / 2, (s - disc) / 2, disc, disc), 24, "ff141414",
                   "horizontallyCentred verticallyCentred")]))
         put("pot%d" % (i + 1), dkey, (x, y, s, s))
     # the mod: its two keys and amount knobs (the amount printed in the knob's coloured centre)
@@ -328,7 +328,7 @@ def main(skin):
         # the amount on the key: text only, touches go through to the key under it
         cx, cy = P.page(*m["key"])
         akey = "lxrAmt_%s" % m["amt"]
-        d = definition(akey, [], [label("Value", "Value", bounds(0, 0, P.AMT_W, P.AMT_H), 12, "ff141414",
+        d = definition(akey, [], [label("Value", "Value", bounds(0, 0, P.AMT_W, P.AMT_H), 15, "ff141414",
                                         "horizontallyCentred verticallyCentred")])
         d["value"]["ignoreMousePresses"] = True
         new_defs.append(d)
@@ -346,8 +346,8 @@ def main(skin):
     text_h = rh - P.BAR_H - 6
     new_defs.append(definition("lxrRow", KNOB_ACTIONS, [
         focus(rw, rh),
-        label("Name", "Name", bounds(0, 0, rw * 0.55, text_h), 25, ROW_INK, "left verticallyCentred"),
-        label("Value", "Value", bounds(rw * 0.3, 0, rw * 0.7, text_h), 25, ROW_INK, "right verticallyCentred"),
+        label("Name", "Name", bounds(0, 0, rw * 0.55, text_h), 30, ROW_INK, "left verticallyCentred"),
+        label("Value", "Value", bounds(rw * 0.3, 0, rw * 0.7, text_h), 30, ROW_INK, "right verticallyCentred"),
         filmstrip("Slider", "lxr_bar.png", frames, rw, P.BAR_H, "Horizontal", 0, text_h + 4)]))
     for i in range(8):
         put("slot%d" % (i + 1), "lxrRow", P.row_box(i))
@@ -356,7 +356,7 @@ def main(skin):
     x0, y0 = P.page(lx, ly)
     w, h = lw * P.SX, lh * P.SY
     line_h = (h - 8) / 2
-    new_defs.append(definition("lxrLcd", [], [label("Value", "Value", bounds(10, 0, w - 20, line_h), 24, LCD_INK,
+    new_defs.append(definition("lxrLcd", [], [label("Value", "Value", bounds(10, 0, w - 20, line_h), 30, LCD_INK,
                                                      "horizontallyCentred verticallyCentred")]))
     for n in (1, 2):
         put("lcd%d" % n, "lxrLcd", (x0, y0 + 4 + (n - 1) * line_h, w, line_h))

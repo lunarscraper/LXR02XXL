@@ -64,7 +64,7 @@ MOD = {
                  knob_img="MOD KNOB YELLOW.png", label=("MOD LABEL STEP.png", 278.8, 18.3, 1.0), amt="srnd_amt", round=True),
 }
 TOP = ("PANEL TOP.png", 16)        # the bezel along the panel's top edge, squeezed to this page height
-AMT_W, AMT_H = 40, 16              # each randomizer's amount, printed on its key (page px)
+AMT_W, AMT_H = 40, 20              # each randomizer's amount, printed on its key (page px)
 RESET_KEY = dict(key=(54.0, 76.5), key_w=50, key_img="MOD BUTTON BLUE ON.png")   # the blue RESET key
 RESET_LABEL = ("MOD RESET LABEL.png", 4, 26)   # its legend, cut from MOD OVERVIEW.png at this place
 FADERS = [586.5, 648.5, 709.5, 769.5, 833.0, 893.5, 955.5]   # fader centres (x)

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.8
+- Bigger text, sizes and places unchanged: the PARAMETERS column's names and values (30), the display's two lines
+  (30), the pots' values (24) and the randomizer amounts on the green and yellow keys (15).
+
 ## 0.5.7
 - The new panel by Suns Kiefer (art/panel/PANEL SOURCE.png, fitted under the keys by tools/fit_panel.py), with the
   top bezel; the keys, pots, faders, the data encoder and RESET keep their places and pictures, and the DATA dial is
