@@ -28,6 +28,8 @@ owner's manual and the v1.7 changelog, with the firmware's names and value lists
   morphing and kit change with the pattern; per-step parameters show while a step is held (two at most, the oldest
   replaced, as in v1.7).
 
+**[User manual](docs/MANUAL.md)**: every key, page and function, step by step.
+
 ## The page
 
 The panel by Suns Kiefer, laid out like the LXR-02's, at MPC's full height on the right, the PARAMETERS column on the left.
