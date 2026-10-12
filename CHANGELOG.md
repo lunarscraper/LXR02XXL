@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.6
+- LOAD / SAVE: the "DATA" legend (the encoder's push) blinks red while a slot waits to be confirmed (also in CLEAR and
+  pad learn), and pressing the same data key again (KIT, MORPH, SONG, PROJECT) confirms too. Changing kit: LOAD, KIT,
+  turn DATA, tap DATA (or KIT again). The README says how; the Force's data wheel press does not reach plugins.
+
 ## 0.5.5
 - The panel without the LXR logo, the "LXR-02" text and the "X SONIC POTIONS X ERICA SYNTHS" line ("DIGITAL DRUM
   SYNTH" and the mod mark stay); the page tab and Q-Link page are named LXRXXL.

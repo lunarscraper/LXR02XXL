@@ -142,6 +142,33 @@ int main(void)
         a->setP(a, P_DATA, 1.f); run(a, 0.02);
         CHECK(a->getP(a, P_DATA) > 0.99f, "and reaches the end of the page (%.2f)", a->getP(a, P_DATA));
     }
+    /* LOAD > KIT: the DATA legend (the encoder's push) blinks while a kit is picked; a tap on it, or the KIT step key
+     * again, loads the kit shown */
+    {
+        char l1[64], l2[64], want[64];
+        int i, on = 0, off = 0;
+        tap(a, P_LOAD); tap(a, P_S8);
+        a->d(a, 7, P_LCD1, 0, l1, 0);
+        CHECK(strstr(l1, "Load: Kit") != NULL, "LOAD then the KIT key: '%s'", l1);
+        for (i = 0; i < 40; i++) { run(a, 0.02); if (a->getP(a, P_ENC) > 0.5f) on++; else off++; }
+        CHECK(on > 3 && off > 3, "the DATA push blinks while it waits (%d lit, %d unlit)", on, off);
+        a->setP(a, P_DATA, a->getP(a, P_DATA) + 3.f / 128); run(a, 0.05);
+        a->d(a, 7, P_LCD2, 0, want, 0);
+        tap(a, P_ENC); run(a, 0.05);
+        a->d(a, 7, P_LCD2, 0, l2, 0);
+        CHECK(strstr(l2, "loaded") != NULL, "a tap on the DATA legend loads '%s' ('%s')", want, l2);
+        run(a, 1.0);
+        a->d(a, 7, P_LCD1, 0, l1, 0);
+        CHECK(strstr(l1, "Load") == NULL, "and LOAD closes ('%s')", l1);
+        for (i = 0, on = 0; i < 20; i++) { run(a, 0.02); if (a->getP(a, P_ENC) > 0.5f) on++; }
+        CHECK(on == 0, "the DATA push is dark again (%d)", on);
+        tap(a, P_LOAD); tap(a, P_S8);
+        a->setP(a, P_DATA, a->getP(a, P_DATA) - 3.f / 128); run(a, 0.05);   /* back to the kit it had */
+        tap(a, P_S8); run(a, 0.05);
+        a->d(a, 7, P_LCD2, 0, l2, 0);
+        CHECK(strstr(l2, "loaded") != NULL, "the KIT key pressed again loads it too ('%s')", l2);
+        run(a, 1.0);
+    }
     /* pad learn on a layout no one assumed: rows of 8 from note 48, 1 apart */
     tap(a, P_SHIFT);
     tap(a, P_S12);   /* CONFIG */

@@ -774,6 +774,9 @@ static void slot_name(Lxr *x, const char *src, char *dst)
     dst[NAME_LEN] = 0;
 }
 
+/* the step key that picks each load/save type (7.1: KIT MRP SNG PRJ, then PAT on step 16) */
+static int ls_key(uint8_t type) { return type < 4 ? 7 + type : 15; }
+
 static void ls_confirm(Lxr *x)
 {
     const uint8_t slot = x->ui.lsSlot;
@@ -1120,6 +1123,7 @@ void ui_press(Lxr *x, int b, int fromPad)
             return;
         case M_PATTERN: case M_LOAD: case M_SAVE:
             if (x->ui.lsType == 4 || x->ui.mode == M_PATTERN) select_pattern_key(x, k);
+            else if (k == ls_key(x->ui.lsType)) ls_confirm(x);   /* the kit/morph/song/project key again: the push */
             return;
         case M_SONG:
             x->p.songs[x->songSlot].e[x->ui.songRow] = (uint8_t)(x->ui.group * 16 + k);
@@ -1339,6 +1343,8 @@ int ui_led(Lxr *x, int b)
     const uint8_t m = x->ui.mode;
     const uint32_t clk = lxr_clock(x);
     if (b == B_SHIFT) return shifted(x);
+    /* the encoder's push (the "DATA" legend) blinks while it has something to confirm */
+    if (b == B_ENC) return ((m == M_LOAD || m == M_SAVE) && x->ui.lsType != 4) || m == M_CLEAR || m == M_PADLEARN ? blink(x) : 0;
     if (b == B_PLAY) return x->seq.running ? 1 : (x->seq.songMode && blink(x));   /* lit steadily while it runs */
     if (b == B_REC) return x->seq.recording ? (x->seq.erasing ? blink(x) : 1) : 0;
     if (b == B_COPY) return x->ui.copy ? blink(x) : (m == M_CLEAR ? blink(x) : 0);
@@ -1383,7 +1389,7 @@ int ui_led(Lxr *x, int b)
             return 0;
         case M_PATTERN: case M_LOAD: case M_SAVE: {
             const uint8_t pat = (uint8_t)(x->ui.group * 16 + k);
-            if (m != M_PATTERN && x->ui.lsType != 4) return 0;
+            if (m != M_PATTERN && x->ui.lsType != 4) return k == ls_key(x->ui.lsType) ? blink(x) : 0;
             if (x->seq.nextPat == pat) return blink(x);
             return x->patSlot == pat;
         }

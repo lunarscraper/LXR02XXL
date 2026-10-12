@@ -1,4 +1,4 @@
-# LXRXXL v0.5.5
+# LXRXXL v0.5.6
 
 ![LXRXXL on MPC](docs/img/page.png)
 
@@ -37,14 +37,17 @@ The panel by Suns Kiefer, laid out like the LXR-02's, at MPC's full height on th
 | Display | the LXR's two LCD lines, in the panel's display window |
 | PARAMETERS | the values of the menu page shown on the display, named as the LXR names them, each with a bar to drag; a page with fewer values shows fewer rows |
 | 4 pots | the LXR's pots: values 1-4 of the page (or 5-8, after selecting one of those). Each stands on the value it edits, full left = its minimum, full right = its maximum, and turns as the value changes; the value is printed in its white centre |
-| DATA encoder | moves the selection / edits; it turns with the selection, from the first value of the page to the last (or the first slot to the last when loading/saving); a tap on the "DATA" legend under it is the encoder's push |
+| DATA encoder | moves the selection / edits; it turns with the selection, from the first value of the page to the last (or the first slot to the last when loading/saving); a tap on the "DATA" legend under it is the encoder's push (it blinks red when there is something to confirm) |
 | 7 faders | DRUM1 DRUM2 DRUM3 SNARE CLP/CYM HIHATS VOLUME (the LXR-02's fader curve) |
 | Keys | SHIFT PLAY REC COPY/CLR VOICE PERF LOAD SAVE / OSC AEG MOD FM CLICK FILTER LFO MIX / BAR< BAR> and the 7 voices; lit red with their LED |
 | Step keys | 1-16: grey = step off, red = step on; the SHIFT function is printed under each key |
 
 On the touchscreen **SHIFT** and **COPY/CLR** latch: tap SHIFT, then the key (the SHIFT LED shows it is armed); the
 pads have real press-and-hold. **LOAD / SAVE**: tap LOAD or SAVE, then the data key (KIT 8, MORPH 9, SONG 10,
-PROJECT 11, PATTERN 16), as on the machine.
+PROJECT 11, PATTERN 16), as on the machine. Pick the slot with DATA (the touchscreen knob, the Force's data wheel or
+Q-Link knob 8), then confirm with a tap on the blinking **DATA** legend under the knob, or tap the same data key again.
+Example, changing kit: LOAD, KIT (step 8), turn DATA to the kit, tap DATA. Pressing the Force's data wheel in does not reach
+plugins (only its turns do), so it does nothing here. A pattern loads on its step key.
 
 **Q-Links:** bank 1 = the 7 faders and the data encoder on knob 8; bank 2 = the 4 pots and the data encoder on
 knob 8.
