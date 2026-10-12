@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.5
+- The panel without the LXR logo, the "LXR-02" text and the "X SONIC POTIONS X ERICA SYNTHS" line ("DIGITAL DRUM
+  SYNTH" and the mod mark stay); the page tab and Q-Link page are named LXRXXL.
+- README, catalog and release text say what it is: a port of the open-source Sonic Potions LXR engine with
+  LXR-02-style features written from the manual, inspired by the Erica Synths LXR-02.
+
 ## 0.5.4
 - The panel without the L'Cronx logo (new background by Suns Kiefer); the catalog entry's author is Suns Kiefer.
 

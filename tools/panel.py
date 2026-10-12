@@ -4,7 +4,7 @@
     python3 tools/panel.py --write     (writes layout.conf from this file)
     python3 tools/panel.py --check     (fails when layout.conf is stale)
 
-The page is built from the panel artwork in art/panel/ (the LXR-02 panel by Suns Kiefer, 1000 x 638):
+The page is built from the panel artwork in art/panel/ (the panel by Suns Kiefer, laid out like the LXR-02, 1000 x 638):
     BACKGROUND SYNTH.png                   the panel without its knobs, keys and fader caps
     BUTTONS OFF ALL.png / BUTTONS ON ALL.png   every key unlit / lit, in place (a sheet 8 px left and 1 px up of the panel)
     Main KNOB.png                          the data encoder
@@ -119,7 +119,7 @@ def layout_lines():
          "# replaces the drawn controls with the panel artwork (art/panel/) at the same places.",
          "theme_bg=141414", "theme_panel=141414", "theme_ink=ececec", "theme_ink_dim=cfcfcf", "theme_accent=f2f2f2",
          "theme_knob_ring=e2201c", "theme_seg_active=e2201c", "theme_lcd=000000", "theme_box=000000",
-         "", "[tab LXR-02]"]
+         "", "[tab LXRXXL]"]
     x, y, w, h = LCD
     cx, cy = page(x + w / 2, y + h / 2)
     lw = round(w * SX) - 8
@@ -154,7 +154,7 @@ def layout_lines():
         cx, cy = page(*m["knob"])
         L.append('knob cx=%d cy=%d r=24 label="" key=%s ns=0 bw=60' % (round(cx), L_y(cy), m["amt"]))
     # Q-Links: bank 1 = the 7 faders and the data encoder on knob 8; bank 2 = the 4 pots and the encoder on knob 8
-    L.append('qlinks "LXR-02" = fader1,fader2,fader3,fader4,fader5,fader6,fader7,data,pot1,pot2,pot3,pot4,rnd_amt,srnd_amt,-,data')
+    L.append('qlinks "LXRXXL" = fader1,fader2,fader3,fader4,fader5,fader6,fader7,data,pot1,pot2,pot3,pot4,rnd_amt,srnd_amt,-,data')
     return L
 
 

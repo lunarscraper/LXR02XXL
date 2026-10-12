@@ -1,13 +1,13 @@
-# LXRXXL v0.5.4
+# LXRXXL v0.5.5
 
 ![LXRXXL on MPC](docs/img/page.png)
 
 **Tested on an Akai Force** (see `tested.json`). Downloads: [Releases](https://github.com/sunskiefer/LXR02XXL/releases).
 
-The Sonic Potions + Erica Synths **LXR-02** drum machine as a plugin instrument for the Akai Force and MPC (MPC OS
-3.x, VST2 through [mpc-vst-plugins](https://github.com/sd88me/mpc-vst-plugins)). The whole front panel on one page:
-display, four pots, data encoder, the 7 faders, every button with its LED, and the 16 step keys, playable from the
-touchscreen and from the Force's pads.
+A port of the open-source Sonic Potions **LXR** engine to the Akai Force and MPC (MPC OS 3.x, VST2 through
+[mpc-vst-plugins](https://github.com/sd88me/mpc-vst-plugins)), with LXR-02-style features written from the manual.
+Inspired by the Erica Synths LXR-02. The whole panel on one page: display, four pots, data encoder, the 7 faders, every
+button with its LED, and the 16 step keys, playable from the touchscreen and from the Force's pads.
 
 ## Sound
 
@@ -30,7 +30,7 @@ owner's manual and the v1.7 changelog, with the firmware's names and value lists
 
 ## The page
 
-The LXR-02 panel by Suns Kiefer at MPC's full height on the right, the PARAMETERS column on the left.
+The panel by Suns Kiefer, laid out like the LXR-02's, at MPC's full height on the right, the PARAMETERS column on the left.
 
 | Area | What |
 |---|---|

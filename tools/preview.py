@@ -34,7 +34,7 @@ def main(skin, out, state_path=None):
     tui = json.load(open(os.path.join(skin, "TUI.json")))
     defs = {e["key"]: e["value"] for e in tui["pageData"]["componentDefinitions"]["localComponentDefinitions"]}
     params = json.load(open(os.path.join(P.ROOT, "params.json")))["params"]
-    page = defs["LXR-02|LXR-02"]["componentsData"]
+    page = defs["LXRXXL|LXRXXL"]["componentsData"]
     img = Image.new("RGB", (P.W, P.H))
     d = ImageDraw.Draw(img)
     for c in page:

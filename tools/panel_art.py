@@ -241,7 +241,7 @@ def main(skin):
     by_key = {e["key"]: e for e in defs}
     params = json.load(open(os.path.join(P.ROOT, "params.json")))["params"]
     index = {p["key"]: i for i, p in enumerate(params)}
-    page = by_key["LXR-02|LXR-02"]["value"]["componentsData"]
+    page = by_key["LXRXXL|LXRXXL"]["value"]["componentsData"]
     bg = draw_background()
     new_defs = []
     used = {"sh_bg_0.png"}
@@ -342,7 +342,7 @@ def main(skin):
     for n in (1, 2):
         put("lcd%d" % n, "lxrLcd", (x0, y0 + 4 + (n - 1) * line_h, w, line_h))
 
-    keep = {"LXR-02|LXR-02"}
+    keep = {"LXRXXL|LXRXXL"}
     cdefs["localComponentDefinitions"] = [e for e in defs if e["key"] in keep] + new_defs
     page[0]["componentData"]["data"]["image"] = "sh_bg_0.png"
     save(bg, "sh_bg_0.png")
