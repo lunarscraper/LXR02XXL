@@ -341,7 +341,7 @@ static void factory(void)
     int t, s, n = 0, other = 0;
     uint8_t before[LXR_KIT_BYTES];
     for (t = 0; t < NUM_TRACKS; t++) for (s = 0; s < NUM_STEPS; s++) n += x->pat.s[t][s].on;
-    CHECK(!memcmp(x->p.kits[0].name, "Lambo   ", 8) && !memcmp(x->p.kits[15].name, "Mist    ", 8),
+    CHECK(!memcmp(x->p.kits[0].name, "TR-606  ", 8) && !memcmp(x->p.kits[15].name, "Hacked  ", 8),
           "factory kits: '%.8s' .. '%.8s'", x->p.kits[0].name, x->p.kits[15].name);
     CHECK(n > 20 && x->p.g.kcm == 1 && !memcmp(x->kit.b, x->p.kits[x->p.pats[0].kit].b, LXR_KIT_BYTES),
           "starts on pattern 1 (%d steps) with its kit, kit change auto", n);

@@ -60,10 +60,7 @@ number runs the LXR on its own clock.
 
 ## The mod: presets, RESET and randomizers
 
-**Presets.** LXRXXL comes with the Hrtl LXR-02 DLC project (`presets/`): 64 kits (Lambo, Reservoir, Faders, Malware,
-Zipper, Nanobyte, Kronky, Boooost, Dropbar, Goondam, SpaceD, Penalty, Dialup, Express, Necro, Mist and init kits) and
-16 demo patterns, each with its kit (kit change mode "auto", so selecting a pattern brings its kit). A new LXRXXL
-starts on this project, on pattern 1; an MPC project you saved opens as you saved it.
+**Presets.** LXRXXL comes with the LXR-02 project "Roland1" (`presets/LXR02 PROJ10/`): 64 kits (TR-606, TR-808, TR-101, TR-808v2, Mutant08, 808Alt, TR-809, TR-ACID, TR-807, RhythAce, TR-607, CR-8k, Nervous, Slapper, Hacked and more) and 10 demo patterns, each with its kit (kit change mode "auto", so selecting a pattern brings its kit). The earlier Hrtl LXR-02 DLC project stays in `presets/Hrtl LXR-02 DLC/` and can be imported again with `tools/import_lxr02.py`. A new LXRXXL starts on this project, on pattern 1; an MPC project you saved opens as you saved it.
 
 **RESET** (blue key, top left): back to the factory project, pattern 1 with its kit, the sequencer stopped. Anything
 not saved is replaced.
@@ -127,7 +124,7 @@ Artwork by Suns Kiefer.
 `tools/import_lxr02.py <LXR-02 project folder>` turns an LXR-02 project (its SD card's `NN-NAME.SND` kits and `NN-.PAT`
 patterns, firmware 1.70) into the factory content (`src/factory_data.c`); the file layouts are described at its top.
 The LXR-02's modulation targets for pulse width and the FX unit have no modulation in this engine: those few are set
-off (6 in the Hrtl project). Songs and the global settings file are not imported.
+off (26 in PROJ10, 6 in the Hrtl project). Songs and the global settings file are not imported.
 
 ## Data
 

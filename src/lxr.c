@@ -136,7 +136,7 @@ void lxr_factoryProject(Project *p)
 {
     int i, k, t;
     lxr_initProject(p);
-    memcpy(p->name, "Hrtl DLC", NAME_LEN);
+    memcpy(p->name, "Roland1 ", NAME_LEN);
     for (i = 0; i < NUM_KITS; i++) {
         p->kits[i] = lxr_factoryKits[i];
         p->kits[i].b[0] = 0;   /* PAR_NONE: the LXR-02 leaves a stray value here */

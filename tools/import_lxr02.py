@@ -156,4 +156,4 @@ def main(folder):
 
 if __name__ == "__main__":
     main(sys.argv[1] if len(sys.argv) > 1 else
-         os.path.join(ROOT, "presets", "Hrtl LXR-02 DLC", "ProjectFiles", "DLCprjct (w demo patterns)"))
+         os.path.join(ROOT, "presets", "LXR02 PROJ10", "ProjectFiles", "PROJ10"))
