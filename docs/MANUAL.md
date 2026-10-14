@@ -214,7 +214,12 @@ LOAD / SAVE > SONG loads and saves songs (64 in a project).
 ## 7 Performance
 
 **PERF**: the display shows `Performance`. Values: `bpm` (tempo), `rol` (roll rate: One, 1/1 … 1/8, 12, 16, 24, 32, 48,
-64, 128), `mrp` (morph), `sr` (sample rate of all voices), `shu` (shuffle).
+64, 128), `mrp` (morph), `sr` (sample rate of all voices), `shu` (shuffle), `stm` (Stems, below).
+
+- **Stems** (`stm`, LXRXXL's own, not on the LXR-02): `on` records each voice, the FX unit and the mix as separate WAV
+  files on the card while MPC plays (from PLAY to STOP, with the sound's tail). The value shows `on`, `REC 1:23` while
+  recording, `end` during the tail, `sv 15:03` when a take is saved (the display also says `Stems  8 files saved`),
+  `card?` / `full?` when the card can't take it. Details in the README ("Stems").
 
 - **Step keys 1-7: manual rolls** for DRUM1 … OP HH, repeating at the roll rate. On a pad, held; on the screen, a tap
   turns the roll on, another tap off. With the rate on `One`, a key plays a single hit.

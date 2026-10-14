@@ -32,7 +32,7 @@ enum {
     SK_SONGROW, SK_SONGPAT,
     SK_LAST,       /* last step */
 };
-enum { G_BPM, G_CH, G_MTX, G_MRX, G_FLW, G_KCM, G_PAD, G_LRN, G_ROLL, G_SHU, G_TRK, G_QNT };
+enum { G_BPM, G_CH, G_MTX, G_MRX, G_FLW, G_KCM, G_PAD, G_LRN, G_ROLL, G_SHU, G_TRK, G_QNT, G_STM };
 
 static const char *const trackNames[NUM_TRACKS] = {"DRUM1", "DRUM2", "DRUM3", "SNARE", "CLP/CYM", "CL HH", "OP HH"};
 const char *ui_trackName(int t) { return t >= 0 && t < NUM_TRACKS ? trackNames[t] : "?"; }
@@ -178,6 +178,7 @@ void ui_refreshSlots(Lxr *x)
     case M_PERF:
         s[0] = SLOT(SK_GLOB, G_BPM); s[1] = SLOT(SK_GLOB, G_ROLL); s[2] = SLOT(SK_MORPH, 0);
         s[3] = SLOT(SK_SOUND, PAR_VOICE_DECIMATION_ALL); s[4] = SLOT(SK_GLOB, G_SHU);
+        s[5] = SLOT(SK_GLOB, G_STM);   /* STEMS (engine.c) */
         break;
     case M_PATGEN:
         s[0] = SLOT(SK_GEN, 0); s[1] = SLOT(SK_GEN, 1); s[2] = SLOT(SK_GEN, 2); s[3] = SLOT(SK_MORPH, 0);
@@ -275,7 +276,7 @@ static int slot_max(Lxr *x, const Slot *s)
         case G_BPM: return 255;
         case G_CH: return 15;
         case G_MTX: case G_MRX: return 15;
-        case G_FLW: case G_KCM: case G_PAD: case G_LRN: case G_TRK: return 1;
+        case G_FLW: case G_KCM: case G_PAD: case G_LRN: case G_TRK: case G_STM: return 1;
         case G_ROLL: return 13;
         case G_SHU: return 127;
         case G_QNT: return 4;
@@ -336,6 +337,7 @@ static int slot_value(Lxr *x, const Slot *s)
         case G_SHU: return x->p.g.shuffle;
         case G_TRK: return x->p.g.recTrack;
         case G_QNT: return x->p.g.quant;
+        case G_STM: return x->stems;
         }
         return 0;
     case SK_MORPH: return x->morph;
@@ -448,6 +450,7 @@ static void slot_set(Lxr *x, const Slot *s, int v)
         case G_SHU: x->p.g.shuffle = (uint8_t)v; break;
         case G_TRK: x->p.g.recTrack = (uint8_t)v; break;
         case G_QNT: x->p.g.quant = (uint8_t)v; break;
+        case G_STM: x->stems = (uint8_t)(v != 0); break;   /* engine.c starts / arms the recorder */
         }
         break;
     case SK_MORPH:
@@ -485,7 +488,7 @@ static void slot_set(Lxr *x, const Slot *s, int v)
 static const char *slot_short(Lxr *x, const Slot *s, char *buf)
 {
     static const char *const stepNames[7] = {"vel", "nte", "prb", "p1d", "p1v", "p2d", "p2v"};
-    static const char *const globNames[12] = {"bpm", "ch", "mtx", "mrx", "flw", "kcm", "pad", "lrn", "rol", "shu", "trk", "qnt"};
+    static const char *const globNames[13] = {"bpm", "ch", "mtx", "mrx", "flw", "kcm", "pad", "lrn", "rol", "shu", "trk", "qnt", "stm"};
     static const char *const genNames[3] = {"len", "stp", "rot"};
     switch (s->kind) {
     case SK_SOUND: {
@@ -567,8 +570,8 @@ static const char *slot_long(Lxr *x, const Slot *s)
     case SK_TRKNOTE: return "Note";
     case SK_STEP: { static const char *const n[7] = {"Velocity", "Note", "Prbablty", "Aut Dest", "AutValue", "Aut Dest", "AutValue"}; return n[s->id]; }
     case SK_GLOB: {
-        static const char *const n[12] = {"Tempo", "Channel", "Transmit", "Receive", "Follow", "KitChMde", "Pads", "Pad learn",
-                                           "RollRate", "Shuffle", "AutTrack", "Quantize"};
+        static const char *const n[13] = {"Tempo", "Channel", "Transmit", "Receive", "Follow", "KitChMde", "Pads", "Pad learn",
+                                           "RollRate", "Shuffle", "AutTrack", "Quantize", "Stems"};
         return n[s->id];
     }
     case SK_MORPH: return "Morph";
@@ -633,6 +636,7 @@ static void slot_text(Lxr *x, const Slot *s, char *buf)
         case G_ROLL: strcpy(buf, rollNames[v < 14 ? v : 8]); return;
         case G_TRK: sprintf(buf, "%d", v + 1); return;
         case G_QNT: strcpy(buf, quantNames[v < 5 ? v : 2]); return;
+        case G_STM: strcpy(buf, x->stemStat[0] ? x->stemStat : v ? "on" : "off"); return;
         }
         sprintf(buf, "%d", v);
         return;

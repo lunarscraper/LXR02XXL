@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0
+- Stems: PERF > `stm` (Stems) on records each voice (stereo, as it reaches the main out), the FX unit and the mix as WAV
+  files on the card from MPC's PLAY to STOP, in `Force Documents/LXRXXL Stems/` (src/stemrec.h, Percolator's
+  recorder). Kept in the MPC project; the sound is unchanged. Tests: test/stems_test.c.
+
 ## 0.5.8
 - Bigger text, sizes and places unchanged: the PARAMETERS column's names and values (30), the display's two lines
   (30), the pots' values (24) and the randomizer amounts on the green and yellow keys (15).

@@ -295,6 +295,27 @@ static void route_add(uint8_t dest, float panL, float panR, const float *data, f
     }
 }
 
+float *lxr_stem32;
+
+/* STEMS: what route_add adds to the main out, written to the stem block's channels c, c+1 instead */
+static void route_stem(uint8_t dest, float panL, float panR, const float *data, int c)
+{
+    uint8_t i;
+    float *o = lxr_stem32 + c;
+    switch (dest) {
+    case OUT_ST1: case OUT_ST2:
+        for (i = 0; i < OUTPUT_DMA_SIZE; i++) { o[i * 14] = data[i] * panL; o[i * 14 + 1] = data[i] * panR; }
+        break;
+    case OUT_L1: case OUT_L2:
+        for (i = 0; i < OUTPUT_DMA_SIZE; i++) o[i * 14] = data[i];
+        break;
+    case OUT_R1: case OUT_R2:
+        for (i = 0; i < OUTPUT_DMA_SIZE; i++) o[i * 14 + 1] = data[i];
+        break;
+    default: break;
+    }
+}
+
 static void voice_out(uint8_t v, uint8_t pan, int16_t *s16, const float fader[6], float *L, float *R, float *fxBus)
 {
     /* mixer_addVoiceInt16ToOutput(): the fader gain ramps over the block, the int16 product is truncated, then panned */
@@ -311,6 +332,7 @@ static void voice_out(uint8_t v, uint8_t pan, int16_t *s16, const float fader[6]
         return;
     }
     route_add(mixer_audioRouting[v], squareRootLut[127 - pan], squareRootLut[pan], data, L, R);
+    if (lxr_stem32) route_stem(mixer_audioRouting[v], squareRootLut[127 - pan], squareRootLut[pan], data, 2 * v);
 }
 
 void lxr_dsp_render32(float *outL, float *outR, const float fader[6], struct LxrFx *fx)
@@ -341,6 +363,7 @@ void lxr_dsp_render32(float *outL, float *outR, const float fader[6], struct Lxr
     HiHat_calcAsync();
 
     for (i = 0; i < OUTPUT_DMA_SIZE; i++) { outL[i] = 0; outR[i] = 0; fxBus[i] = 0; }
+    if (lxr_stem32) memset(lxr_stem32, 0, sizeof(float) * OUTPUT_DMA_SIZE * 14);
     for (i = 0; i < 3; i++) {
         calcDrumVoiceSyncBlock(i, s16, OUTPUT_DMA_SIZE);
         voice_out(i, voiceArray[i].pan, s16, fader, outL, outR, fxBus);
@@ -359,9 +382,12 @@ void lxr_dsp_render32(float *outL, float *outR, const float fader[6], struct Lxr
             /* a stereo out: centre pan (the pan law's -3 dB), the ping-pong's two sides kept apart */
             const float c = squareRootLut[64];
             for (i = 0; i < OUTPUT_DMA_SIZE; i++) { outL[i] += wl[i] * c; outR[i] += wr[i] * c; }
+            if (lxr_stem32)
+                for (i = 0; i < OUTPUT_DMA_SIZE; i++) { lxr_stem32[i * 14 + 12] = wl[i] * c; lxr_stem32[i * 14 + 13] = wr[i] * c; }
         } else {
             for (i = 0; i < OUTPUT_DMA_SIZE; i++) wl[i] = 0.5f * (wl[i] + wr[i]);
             route_add(dest, 1.f, 1.f, wl, outL, outR);
+            if (lxr_stem32) route_stem(dest, 1.f, 1.f, wl, 12);
         }
     }
 }

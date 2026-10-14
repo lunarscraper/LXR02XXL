@@ -12,11 +12,119 @@
 #include "lxr_state.h"
 #include "param_ids.h"
 #include "plugin_dir.h"
+#include "stemrec.h"
+
+/* STEMS: each voice, the FX unit and the mix as stereo WAV files on the card, from PLAY to STOP (stemrec.h, the
+ * recorder from Percolator). The switch is the PERF page's "Stems" (x->stems, saved with the MPC project). */
+#define ST_NF 8
+#define ST_NCH 16                  /* 6 voices + FX + MIX, each stereo */
+enum { ST_IDLE, ST_REC, ST_TAIL };
 
 typedef struct {
     Lxr x;
     LxrState *st;
+    /* STEMS */
+    stemrec_t rec;
+    int on;                        /* x->stems as last applied (recorder armed) */
+    int state, tail, quiet, tick;
+    int playing;                   /* MPC's transport, tempo and position (host_time) */
+    double ppq, tempo;
+    int saved;                     /* the recorder's "saved" last shown */
+    char dir[600];
+    float v[128 * LXR_STEM_CH];    /* lxr_render's stem frames */
+    float fr[128 * ST_NCH];        /* the block for the recorder */
 } Inst;
+
+static const char *const ST_NAMES[ST_NF] = {"DRUM1", "DRUM2", "DRUM3", "SNARE", "CLP-CYM", "HIHAT", "FX", "MIX"};
+static const char *const ST_INFO[ST_NF] = {
+    "voice 1 (DRUM1) as panned and routed to the main out, fader and VOLUME on",
+    "voice 2 (DRUM2), the same", "voice 3 (DRUM3), the same", "voice 4 (SNARE), the same",
+    "voice 5 (CLP/CYM), the same", "voice 6 (HIHAT, closed and open), the same",
+    "the FX unit's output (the voices routed to FX go through it, not into their own files)",
+    "this track's output as heard, for reference"};
+static const int ST_CHANS[ST_NF] = {2, 2, 2, 2, 2, 2, 2, 2};
+
+static void stems_base(const Inst *in, char *buf, int len)
+{
+    struct stat st;
+    const char *env = getenv("LXRXXL_STEMS_DIR");   /* offline tests */
+    if (env && *env) snprintf(buf, len, "%s", env);
+    else if (!stat("/sdcard/Force Documents", &st) && S_ISDIR(st.st_mode)) snprintf(buf, len, "/sdcard/Force Documents/LXRXXL Stems");
+    else if (!stat("/sdcard/MPC Documents", &st) && S_ISDIR(st.st_mode)) snprintf(buf, len, "/sdcard/MPC Documents/LXRXXL Stems");
+    else snprintf(buf, len, "%.440s/Stems", in->dir[0] ? in->dir : ".");
+}
+
+/* after any parameter (not the audio thread): STEMS switched on starts the recorder the first time, and arms it */
+static void stems_sync(Inst *in)
+{
+    const int on = in->x.stems != 0;
+    if (on == in->on) return;
+    if (on && !in->rec.ok) {
+        char base[480];
+        stems_base(in, base, sizeof base);
+        in->rec.drop_silent = 1;
+        sr_init2(&in->rec, "LXRXXL", ST_NF, ST_NAMES, ST_INFO, ST_CHANS, base);
+    }
+    in->x.stemArmed = (uint8_t)on;
+    sr_arm(&in->rec, on);
+    in->on = on;
+}
+
+static void stems_stop(Inst *in)
+{
+    sr_stop(&in->rec);
+    in->state = ST_IDLE;
+}
+
+/* at the start of a block: start, carry on or end the take; 1 = this block is recorded */
+static int stems_begin(Inst *in)
+{
+    stemrec_t *S = &in->rec;
+    const int want = in->on && in->playing;
+    if (!S->ok) return 0;
+    sr_poll(S);
+    if (in->state == ST_REC && !want) {
+        if (in->on) { in->state = ST_TAIL; in->tail = in->quiet = 0; }   /* STOP: keep the tail */
+        else stems_stop(in);
+    } else if (in->state == ST_TAIL && (want || !in->on)) stems_stop(in);   /* PLAY again: a new take */
+    if (in->state == ST_IDLE && want) {
+        sr_meta_t m;
+        memset(&m, 0, sizeof m);
+        m.transport = 1;
+        m.bpm = in->tempo;
+        m.ppq = in->ppq;
+        snprintf(m.label, sizeof m.label, "%.8s", in->x.kit.name);
+        { char *e = m.label + strlen(m.label); while (e > m.label && e[-1] == ' ') *--e = 0; }
+        snprintf(m.mode, sizeof m.mode, "each voice as it reaches the main out");
+        if (!sr_start(S, &m)) in->state = ST_REC;
+    }
+    return in->state != ST_IDLE;
+}
+
+/* the slot's text (PERF page "Stems"), and a message on the LCD when a take is saved */
+static void stems_status(Inst *in)
+{
+    Lxr *x = &in->x;
+    const stemrec_t *S = &in->rec;
+    char t[sizeof x->stemStat];
+    const int err = S->ok ? SR_LOAD(S->err) : SR_OK, saved = S->ok ? SR_LOAD(S->saved) : 0;
+    if (!x->stems) t[0] = 0;
+    else if (!S->ok) strcpy(t, "no rec");
+    else if (err == SR_ERR_OPEN) strcpy(t, "card?");
+    else if (err == SR_ERR_WRITE) strcpy(t, "full?");
+    else if (in->state != ST_IDLE) {
+        unsigned s = __atomic_load_n(&S->take_frames, __ATOMIC_RELAXED) / SR_RATE;
+        snprintf(t, sizeof t, "%s %u:%02u", in->state == ST_TAIL ? "end" : "REC", s / 60, s % 60);
+    } else if (saved) snprintf(t, sizeof t, "sv %02d:%02d", (saved - 1) / 10000, (saved - 1) / 100 % 100);
+    else strcpy(t, "on");
+    if (strcmp(t, x->stemStat)) { strcpy(x->stemStat, t); x->displayRev++; }
+    if (saved && saved != in->saved) {
+        char l2[32];
+        snprintf(l2, sizeof l2, "%d files saved", SR_LOAD(S->kept));
+        ui_message(x, "Stems", l2, 1500);
+        in->saved = saved;
+    }
+}
 
 /* ---- the data folder: MODULE_DIR (outside the plugin folder, so projects survive updates), else next to the .so ---- */
 static int writable_dir(const char *d)
@@ -51,6 +159,7 @@ static void *create(const char *dataDir)
             if (!writable_dir(dir)) dir[0] = 0;
         }
     }
+    snprintf(in->dir, sizeof in->dir, "%s", dir);
     lxr_state_enter(in->st);
     lxr_init(&in->x, dir);
     in->x.nrpn = -1;
@@ -61,6 +170,8 @@ static void *create(const char *dataDir)
 static void destroy(void *p)
 {
     Inst *in = p;
+    if (in->state != ST_IDLE) stems_stop(in);
+    sr_free(&in->rec);   /* closes the take: the files are complete */
     store_forget(&in->x);
     lxr_state_destroy(in->st);
     free(in);
@@ -162,7 +273,25 @@ static int key_index(const char *k, const char **suffix)
 }
 
 
+static void set_param_(void *p, const char *k, const char *v);
 static void set_param(void *p, const char *k, const char *v)
+{
+    Inst *in = p;
+    if (!strcmp(k, "host_time")) {   /* STEMS follows MPC's transport */
+        double ppq = 0, tempo = 0;
+        int playing = 0;
+        if (sscanf(v, "%d %lf %lf", &playing, &ppq, &tempo) == 3) { in->playing = playing != 0; in->ppq = ppq; in->tempo = tempo; }
+    }
+    if (!strcmp(k, "stems")) {   /* not on the page (the PERF slot is): for tests and a host that wants it */
+        lxr_state_enter(in->st);
+        in->x.stems = (uint8_t)(atoi(v) != 0);
+        in->x.displayRev++;
+        lxr_state_leave();
+    } else set_param_(p, k, v);
+    if (strcmp(k, "host_time")) stems_sync(in);   /* a slot, a key, a project: STEMS may have changed */
+}
+
+static void set_param_(void *p, const char *k, const char *v)
 {
     Inst *in = p;
     Lxr *x = &in->x;
@@ -245,6 +374,8 @@ static int get_param(void *p, const char *k, char *buf, int n)
         lxr_state_leave();
         return r;
     }
+    if (!strcmp(k, "stems")) { r = put(buf, n, x->stems ? "1" : "0"); lxr_state_leave(); return r; }
+    if (!strcmp(k, "stems_status")) { r = put(buf, n, x->stemStat[0] ? x->stemStat : x->stems ? "on" : "off"); lxr_state_leave(); return r; }
     if (!strcmp(k, "display_rev")) {
         snprintf(t, sizeof t, "%u", (unsigned)x->displayRev);
         r = put(buf, n, t);
@@ -297,17 +428,38 @@ static void render(void *p, int16_t *out, int frames)
 {
     Inst *in = p;
     float L[128], R[128];
-    int i;
+    int i, rec;
     if (frames > 128) frames = 128;
     lxr_state_enter(in->st);
+    rec = stems_begin(in);
+    in->x.stemOut = rec ? in->v : NULL;
     store_poll(&in->x);
     lxr_render(&in->x, L, R, frames);
-    lxr_state_leave();
+    in->x.stemOut = NULL;
     for (i = 0; i < frames; i++) {
         float l = L[i] * 32767.f, r = R[i] * 32767.f;
         out[2 * i] = (int16_t)(l > 32767.f ? 32767 : l < -32768.f ? -32768 : (int)l);
         out[2 * i + 1] = (int16_t)(r > 32767.f ? 32767 : r < -32768.f ? -32768 : (int)r);
     }
+    if (rec) {   /* STEMS: the voices and FX, then MIX as heard */
+        float peak = 0.f;
+        int k;
+        for (i = 0; i < frames; i++) {
+            float *f = in->fr + i * ST_NCH;
+            memcpy(f, in->v + i * LXR_STEM_CH, sizeof(float) * LXR_STEM_CH);
+            f[14] = out[2 * i] * (1.f / 32768.f);
+            f[15] = out[2 * i + 1] * (1.f / 32768.f);
+            for (k = 0; k < ST_NCH; k++) { float a = f[k] < 0 ? -f[k] : f[k]; if (a > peak) peak = a; }
+        }
+        sr_write(&in->rec, in->fr, frames);
+        if (in->state == ST_TAIL) {   /* the tail after STOP ends after half a second of silence, or 15 s */
+            in->tail += frames;
+            in->quiet = peak < 1e-5f ? in->quiet + frames : 0;
+            if (in->quiet >= SR_RATE / 2 || in->tail >= 15 * SR_RATE) stems_stop(in);
+        }
+    }
+    if (++in->tick >= 16) { in->tick = 0; stems_status(in); }   /* every 46 ms */
+    lxr_state_leave();
 }
 
 static const mpc_engine_t ENGINE = {create, destroy, midi, set_param, get_param, render, NULL};

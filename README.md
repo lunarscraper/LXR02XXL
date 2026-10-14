@@ -1,4 +1,4 @@
-# LXRXXL v0.5.8
+# LXRXXL v0.6.0
 
 ![LXRXXL on MPC](docs/img/page.png)
 
@@ -125,6 +125,27 @@ Artwork by Suns Kiefer.
 patterns, firmware 1.70) into the factory content (`src/factory_data.c`); the file layouts are described at its top.
 The LXR-02's modulation targets for pulse width and the FX unit have no modulation in this engine: those few are set
 off (26 in PROJ10, 6 in the Hrtl project). Songs and the global settings file are not imported.
+
+## Stems
+
+For mixing or mastering outside the MPC, LXRXXL can record what it plays as separate files: PERF, select `stm`
+(**Stems**, the sixth value: pots 5-8) and turn it `on`, press PLAY on MPC, play the song, press STOP. That's a take;
+every PLAY ... STOP with Stems on makes another one, and `off` records and writes nothing.
+
+- **Where:** `/sdcard/Force Documents/LXRXXL Stems/` on a Force (`/sdcard/MPC Documents/LXRXXL Stems/` on an MPC): a
+  folder per take, named by when it started and the kit.
+- **What:** `LXRXXL DRUM1.wav` ... `HIHAT.wav` (each voice as it reaches the main out: its fader, pan and routing, the
+  master fader), `FX.wav` (what the FX unit adds; a voice routed to FX is heard there, not in its own file), `MIX.wav`
+  (the track's output as heard) and `take.txt` (tempo, the quarter note the take started on, length, peaks). WAV,
+  32-bit float, **stereo**, 44.1 kHz, every file the same length from the same sample, so they line up when laid side by
+  side. A voice that stayed silent gets no file (take.txt lists it). The voices and FX add up to MIX.
+- **The take** starts with the first block after PLAY and ends after STOP once the sound has died away (half a second
+  of silence, 15 s at the most). `off` during a take ends it at once.
+- **In the background:** the audio thread only copies each block into a buffer (about 6 s); a thread of its own writes
+  the files (about 1.4 MB/s for all eight). If the card stalls longer than that, the gap is written as silence in every
+  file and take.txt says so. The sound is the same, bit for bit, with Stems on or off (`test/stems_test.c`).
+- Stems is saved with the MPC project, not in the LXR project files. The recorder is `src/stemrec.h`, the one from
+  Percolator.
 
 ## Data
 

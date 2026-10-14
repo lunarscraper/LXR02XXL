@@ -46,4 +46,8 @@ void lxr_dsp_automationReset(void);
 void lxr_dsp_globalDecimation(uint8_t value);              /* performance page "sr" */
 /* 32 frames (the firmware's block) of the main stereo out, float -1..1; faders 0..1 per voice (6) */
 void lxr_dsp_render32(float *outL, float *outR, const float fader[6], struct LxrFx *fx);
+/* STEMS: when set before lxr_dsp_render32, it also writes there what each voice adds to the main out (frames x 14:
+ * voice v at 2v/2v+1 L/R, as panned and routed; a voice routed to the FX unit adds nothing itself) and what the FX unit
+ * adds (12/13). The main out is unchanged. */
+extern float *lxr_stem32;
 uint8_t lxr_dsp_voiceOfTrack(uint8_t track);

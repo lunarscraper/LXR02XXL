@@ -112,6 +112,8 @@ typedef struct {                /* the sequencer's position (seq.c) */
     uint8_t skipNext[7];
 } SeqRun;
 
+#define LXR_STEM_CH 14             /* STEMS: 6 voices + the FX unit, each stereo */
+
 typedef struct Lxr {
     Project p;
     Kit kit;                   /* the working kit (what plays) */
@@ -214,6 +216,13 @@ typedef struct Lxr {
     uint8_t pendingNote[NUM_TRACKS];
     char dataDir[512];
     struct LxrState *state;            /* the engine's globals for this instance (lxr_state.c) */
+
+    /* STEMS (engine.c records them; PERF page slot "Stems") */
+    uint8_t stems;                     /* 0 off, 1 on: kept in the MPC project (StateHead pad[2]) */
+    uint8_t stemArmed;                 /* engine.c: capture the voices into stem32 (STEMS on) */
+    float stem32[32 * LXR_STEM_CH];    /* the engine block's voices and FX, as played out (master fader on) */
+    float *stemOut;                    /* lxr_render: LXR_STEM_CH floats per frame out, or NULL */
+    char stemStat[28];                 /* the slot's value text: off, on, REC 1:23, saved 06:31 ... */
 } Lxr;
 
 /* lxr.c / seq.c / ui.c */

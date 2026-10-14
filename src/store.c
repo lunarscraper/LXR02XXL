@@ -323,6 +323,7 @@ char *store_serialize(Lxr *x, int *outLen)
     h.morphLoaded = x->morphLoaded; h.morph = x->morph; h.mutes = x->seq.mutes;
     h.track = x->ui.track; h.section = x->ui.section; h.mode = M_VOICE;
     h.pad[0] = (uint8_t)(x->rnd.amt + 1); h.pad[1] = (uint8_t)(x->rnd.seqAmt + 1);
+    h.pad[2] = (uint8_t)(x->stems + 1);   /* STEMS (0: a project from before it, STEMS left as it is) */
     for (k = 0; k < NUM_FADERS; k++) h.fader[k] = (uint8_t)(x->fader[k] * 255.f + 0.5f);
     memcpy(raw, &h, sizeof h);
     memcpy(raw + sizeof h, &x->p, sizeof(Project));
@@ -408,6 +409,7 @@ int store_deserialize(Lxr *x, const char *text)
     for (k = 0; k < NUM_FADERS; k++) x->fader[k] = h.fader[k] / 255.f;
     if (h.pad[0] >= 1 && h.pad[0] <= 11) x->rnd.amt = (uint8_t)(h.pad[0] - 1);
     if (h.pad[1] >= 1 && h.pad[1] <= 11) x->rnd.seqAmt = (uint8_t)(h.pad[1] - 1);
+    if (h.pad[2] >= 1 && h.pad[2] <= 2) x->stems = (uint8_t)(h.pad[2] - 1);
     lxr_applyKit(x);
     ui_refreshSlots(x);
     return 1;

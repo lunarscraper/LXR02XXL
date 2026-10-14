@@ -2,7 +2,7 @@
   "name": "LXRXXL",
   "vendor": "ANDREALPHEUS",
   "uid": "AnLx",
-  "version": 1014,
+  "version": 1015,
   "so": "lxrxxl.so",
   "params": "params.json",
   "layout": "layout.conf",

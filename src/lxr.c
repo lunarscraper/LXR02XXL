@@ -240,10 +240,16 @@ void lxr_render(Lxr *x, float *L, float *R, int n)
             const float master = taper(x->fader[6]);
             for (k = 0; k < 6; k++) g[k] = taper(x->fader[k]);
             seq_block(x, 32);
+            lxr_stem32 = x->stemArmed ? x->stem32 : NULL;   /* STEMS (engine.c) */
             lxr_dsp_render32(x->outL, x->outR, g, &x->fx);
             for (k = 0; k < 32; k++) { x->outL[k] *= master; x->outR[k] *= master; }
+            if (lxr_stem32) {
+                for (k = 0; k < 32 * LXR_STEM_CH; k++) x->stem32[k] *= master;
+                lxr_stem32 = NULL;
+            } else memset(x->stem32, 0, sizeof x->stem32);
             x->outPos = 0;
         }
+        if (x->stemOut) memcpy(x->stemOut + (size_t)i * LXR_STEM_CH, x->stem32 + x->outPos * LXR_STEM_CH, sizeof(float) * LXR_STEM_CH);
         L[i] = x->outL[x->outPos];
         R[i] = x->outR[x->outPos];
         x->outPos++;
